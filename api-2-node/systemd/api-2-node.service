@@ -1,0 +1,16 @@
+[Unit]
+Description=HT1 API #2 - Node.js Express
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/ht1/api-2-node
+Environment=CARNET=REEMPLAZAR_CARNET
+Environment=PORT=8080
+ExecStart=/usr/bin/node /home/ubuntu/ht1/api-2-node/server.js
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

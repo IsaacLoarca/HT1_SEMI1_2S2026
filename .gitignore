@@ -1,0 +1,5 @@
+api-1-python/.venv/
+api-2-node/node_modules/
+__pycache__/
+*.py[cod]
+.env

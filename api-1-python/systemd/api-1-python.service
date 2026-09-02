@@ -1,0 +1,16 @@
+[Unit]
+Description=HT1 API #1 - Python Flask
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/ht1/api-1-python
+Environment=CARNET=REEMPLAZAR_CARNET
+Environment=PORT=8080
+ExecStart=/home/ubuntu/ht1/api-1-python/.venv/bin/gunicorn --workers 2 --bind 0.0.0.0:8080 app:app
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
