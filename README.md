@@ -122,15 +122,15 @@ Reglas de salida: deja la salida predeterminada habilitada para permitir actuali
 
 ### 4.3 Instalar dependencias y desplegar
 
-Conéctate por SSH a cada instancia. Copia este repositorio con SFTP/Termius o clónalo desde un repositorio público.
+Conéctate por SSH a cada instancia. Copia este repositorio con SFTP/Termius o clónalo desde un repositorio público. Los servicios incluidos están preparados para la carpeta fija `/home/ubuntu/HT1_SEMI1_2S2026`, que coincide con el nombre de este repositorio.
 
 En `Instancia-1`:
 
 ```bash
 sudo apt update
 sudo apt install -y python3-venv python3-pip git
-git clone <URL_DEL_REPOSITORIO> ht1
-cd ht1/api-1-python
+git clone <URL_DEL_REPOSITORIO> /home/ubuntu/HT1_SEMI1_2S2026
+cd /home/ubuntu/HT1_SEMI1_2S2026/api-1-python
 python3 -m venv .venv
 ./.venv/bin/pip install -r requirements.txt
 ```
@@ -140,12 +140,14 @@ En `Instancia-2`:
 ```bash
 sudo apt update
 sudo apt install -y nodejs npm git
-git clone <URL_DEL_REPOSITORIO> ht1
-cd ht1/api-2-node
+git clone <URL_DEL_REPOSITORIO> /home/ubuntu/HT1_SEMI1_2S2026
+cd /home/ubuntu/HT1_SEMI1_2S2026/api-2-node
 npm install --omit=dev
 ```
 
 Reemplaza el valor de `CARNET` por tu carné real. Se recomienda usar el archivo de servicio incluido para que cada API se inicie automáticamente y pueda detenerse de forma controlada durante la prueba de tolerancia a fallos.
+
+> Si clonas el repositorio con otro nombre, cambia `/home/ubuntu/HT1_SEMI1_2S2026` por la ruta real en las dos instrucciones `WorkingDirectory` y `ExecStart` de los archivos `.service` antes de copiarlos a `/etc/systemd/system/`. La ruta debe contener directamente las carpetas `api-1-python` y `api-2-node`.
 
 En `Instancia-1`:
 

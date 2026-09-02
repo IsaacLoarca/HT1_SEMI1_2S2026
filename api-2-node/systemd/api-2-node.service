@@ -5,10 +5,10 @@ After=network.target
 [Service]
 Type=simple
 User=ubuntu
-WorkingDirectory=/home/ubuntu/ht1/api-2-node
-Environment=CARNET=REEMPLAZAR_CARNET
+WorkingDirectory=/home/ubuntu/HT1_SEMI1_2S2026/api-2-node
+Environment=CARNET=202307546
 Environment=PORT=8080
-ExecStart=/usr/bin/node /home/ubuntu/ht1/api-2-node/server.js
+ExecStart=/usr/bin/node /home/ubuntu/HT1_SEMI1_2S2026/api-2-node/server.js
 Restart=on-failure
 RestartSec=5
 
