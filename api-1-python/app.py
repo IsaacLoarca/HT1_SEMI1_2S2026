@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 def student_value() -> str:
     carnet = os.getenv("CARNET", "#Carnet")
-    return f"Estudiante - {carnet}"
+    return f"Isaac Mahanaim Loarca Bautista - {carnet}"
 
 
 @app.get("/check")

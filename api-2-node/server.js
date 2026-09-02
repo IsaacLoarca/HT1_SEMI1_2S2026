@@ -5,7 +5,7 @@ const port = Number.parseInt(process.env.PORT || "8080", 10);
 
 function studentValue() {
   const carnet = process.env.CARNET || "#Carnet";
-  return `Estudiante - ${carnet}`;
+  return `Isaac Mahanaim Loarca Bautista - ${carnet}`;
 }
 
 app.get("/check", (_request, response) => {
