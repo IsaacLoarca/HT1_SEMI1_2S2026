@@ -226,6 +226,38 @@ for i in $(seq 1 10); do curl -s "http://${ALB_DNS}/"; echo; done
 
 Deberás observar respuestas de `Instancia #1 - API #1` y `Instancia #2 - API #2`. La distribución no necesariamente alterna en cada solicitud debido al balanceo y a las conexiones persistentes; para evidenciar ambas respuestas, usa solicitudes separadas y actualiza la página.
 
+### 4.6 Comprobar el ALB desde la interfaz de AWS
+
+La consola no tiene un botón de “ejecutar” para el ALB. Se verifica que quedó funcionando revisando su estado, el estado de sus destinos y la respuesta de su DNS:
+
+1. Abre la consola de AWS, entra a **EC2** y confirma que estás en la misma región donde creaste las instancias.
+2. En el menú izquierdo entra a **Load Balancing → Load Balancers**.
+3. Busca `elb-semi1-ht1-<carné>` y confirma:
+   - **Type:** `Application`.
+   - **State:** `Active`.
+   - En la pestaña **Details**, copia el valor **DNS name**.
+4. Abre la pestaña **Listeners and rules** del ALB y confirma que exista un listener `HTTP :80` cuya acción predeterminada sea **Forward to** tu Target Group.
+5. En el menú izquierdo entra a **Load Balancing → Target Groups**, abre el Target Group y selecciona la pestaña **Targets**. Deben aparecer `Instancia-1` e `Instancia-2`, ambas en el puerto `8080` y con estado **Healthy**. El estado **Healthy** confirma que el ALB puede comunicarse con `/check`; si no es saludable, la consola muestra el motivo en los detalles del destino.
+6. En una pestaña nueva del navegador abre `http://<DNS_NAME_DEL_ALB>` sin agregar `:8080`. Debe aparecer el JSON de una de las APIs. Actualiza varias veces o abre URLs como `http://<DNS_NAME_DEL_ALB>/?prueba=1` y `http://<DNS_NAME_DEL_ALB>/?prueba=2` para evidenciar ambas respuestas.
+
+Para el video, muestra en este orden la lista del ALB con estado `Active`, el listener `HTTP:80`, el Target Group con sus dos destinos `Healthy`, el DNS y finalmente el JSON que aparece en el navegador.
+
+Si el ALB está `Active` pero un destino aparece `Unhealthy`, todavía no pruebes el DNS: verifica primero en la instancia `curl -i http://127.0.0.1:8080/check`, que la API escuche en `0.0.0.0:8080` y que el grupo de seguridad de EC2 permita TCP `8080` desde el grupo de seguridad del ALB. Si el estado está `Provisioning`, espera unos minutos y actualiza la consola.
+
+#### Error `Unused: Target is in an Availability Zone that is not enabled for the load balancer`
+
+Este error significa que la instancia está en una zona de disponibilidad que no fue seleccionada para el ALB. Por ejemplo, si ambas instancias están en `us-east-1c`, el ALB también debe tener habilitada esa zona:
+
+1. En **EC2 → Load Balancing → Load Balancers**, selecciona el ALB.
+2. Abre la pestaña **Network mapping** y elige **Edit subnets**.
+3. Marca `us-east-1c` y selecciona una subred pública de la misma VPC.
+4. Elige **Save changes**.
+5. Regresa a **Target Groups → tu grupo → Targets/Destinos** y actualiza la página.
+
+Después de unos minutos, ambos destinos deben pasar de `Unused` a `Healthy`. Para un ALB público, la subred seleccionada debe tener salida hacia un Internet Gateway. Debes mantener al menos dos zonas habilitadas en el ALB y seleccionar las zonas donde realmente están registradas las instancias. AWS indica que los destinos ubicados en una zona no habilitada permanecen registrados, pero no reciben tráfico del balanceador.
+
+Si no existe una subred pública disponible en `us-east-1c`, crea una subred pública en la misma VPC o lanza una nueva instancia en una zona que ya esté habilitada en el ALB. No es necesario modificar el código de las APIs.
+
 ## 5. Prueba de tolerancia a fallos
 
 1. Confirma en Target Groups que ambos destinos estén `Healthy`.
