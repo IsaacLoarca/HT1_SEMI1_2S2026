@@ -6,11 +6,13 @@ from flask import Flask, jsonify
 
 
 app = Flask(__name__)
+app.json.sort_keys = False
 
 
 def student_value() -> str:
-    carnet = os.getenv("CARNET", "#Carnet")
-    return f"Isaac Mahanaim Loarca Bautista - {carnet}"
+    nombre = os.getenv("ESTUDIANTE", "Isaac Mahanaim Loarca Bautista")
+    carnet = os.getenv("CARNET", "20307546")
+    return f"{nombre} - {carnet}"
 
 
 @app.get("/check")

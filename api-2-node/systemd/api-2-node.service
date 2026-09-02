@@ -6,7 +6,8 @@ After=network.target
 Type=simple
 User=ubuntu
 WorkingDirectory=/home/ubuntu/HT1_SEMI1_2S2026/api-2-node
-Environment=CARNET=202307546
+Environment="ESTUDIANTE=Isaac Mahanaim Loarca Bautista"
+Environment=CARNET=20307546
 Environment=PORT=8080
 ExecStart=/usr/bin/node /home/ubuntu/HT1_SEMI1_2S2026/api-2-node/server.js
 Restart=on-failure

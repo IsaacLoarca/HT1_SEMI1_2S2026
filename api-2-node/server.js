@@ -4,8 +4,9 @@ const app = express();
 const port = Number.parseInt(process.env.PORT || "8080", 10);
 
 function studentValue() {
-  const carnet = process.env.CARNET || "#Carnet";
-  return `Isaac Mahanaim Loarca Bautista - ${carnet}`;
+  const nombre = process.env.ESTUDIANTE || "Isaac Mahanaim Loarca Bautista";
+  const carnet = process.env.CARNET || "20307546";
+  return `${nombre} - ${carnet}`;
 }
 
 app.get("/check", (_request, response) => {

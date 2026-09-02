@@ -42,7 +42,8 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-export CARNET="123456789"
+export CARNET="20307546"
+export ESTUDIANTE="Isaac Mahanaim Loarca Bautista"
 export PORT=8080
 python3 app.py
 ```
@@ -60,7 +61,8 @@ curl http://localhost:8080/
 cd api-2-node
 npm install
 
-export CARNET="123456789"
+export CARNET="20307546"
+export ESTUDIANTE="Isaac Mahanaim Loarca Bautista"
 export PORT=8080
 npm start
 ```
@@ -72,7 +74,7 @@ curl -i http://localhost:8080/check
 curl http://localhost:8080/
 ```
 
-Para que el JSON final cumpla con la evidencia, sustituye `123456789` por tu carné real. Si no se define la variable, se utiliza el marcador `Estudiante - <#Carnet>`.
+Para que el JSON final cumpla con la evidencia, sustituye `123456789` y el nombre por tus datos reales. El campo `Estudiante` tendrá el formato `Nombre Apellido - Carné`.
 
 Respuestas esperadas en `/`:
 
@@ -80,7 +82,7 @@ Respuestas esperadas en `/`:
 {
   "Instancia": "Instancia #1 - API #1",
   "Curso": "Seminario de Sistemas 1",
-  "Estudiante": "Estudiante - <123456789>"
+  "Estudiante": "Isaac Mahanaim Loarca Bautista - 20307546"
 }
 ```
 
@@ -145,7 +147,7 @@ cd /home/ubuntu/HT1_SEMI1_2S2026/api-2-node
 npm install --omit=dev
 ```
 
-Reemplaza el valor de `CARNET` por tu carné real. Se recomienda usar el archivo de servicio incluido para que cada API se inicie automáticamente y pueda detenerse de forma controlada durante la prueba de tolerancia a fallos.
+Verifica que `CARNET` y `ESTUDIANTE` coincidan con tus datos reales. Se recomienda usar el archivo de servicio incluido para que cada API se inicie automáticamente y pueda detenerse de forma controlada durante la prueba de tolerancia a fallos.
 
 > Si clonas el repositorio con otro nombre, cambia `/home/ubuntu/HT1_SEMI1_2S2026` por la ruta real en las dos instrucciones `WorkingDirectory` y `ExecStart` de los archivos `.service` antes de copiarlos a `/etc/systemd/system/`. La ruta debe contener directamente las carpetas `api-1-python` y `api-2-node`.
 

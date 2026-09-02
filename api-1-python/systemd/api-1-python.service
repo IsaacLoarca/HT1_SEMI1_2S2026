@@ -6,7 +6,8 @@ After=network.target
 Type=simple
 User=ubuntu
 WorkingDirectory=/home/ubuntu/HT1_SEMI1_2S2026/api-1-python
-Environment=CARNET=202307546
+Environment="ESTUDIANTE=Isaac Mahanaim Loarca Bautista"
+Environment=CARNET=20307546
 Environment=PORT=8080
 ExecStart=/home/ubuntu/HT1_SEMI1_2S2026/api-1-python/.venv/bin/gunicorn --workers 2 --bind 0.0.0.0:8080 app:app
 Restart=on-failure
